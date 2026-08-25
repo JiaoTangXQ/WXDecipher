@@ -1,84 +1,82 @@
-# WXDecipher · 微信聊天记录本地解密与查看工具（macOS）
+# WXDecipher · Local WeChat Chat History Decryptor & Viewer (macOS)
 
-> 一个面向 **macOS** 的本地工具：帮助用户在**自己的设备**上，读取并查看**自己微信账号**的本地聊天记录数据，用于个人数据备份、检索与迁移。所有处理均在本地完成，不上传、不联网传输任何聊天数据。
+**English** | [中文](README.zh-CN.md)
 
----
-
-## ⚠️ 重要法律声明与免责条款（使用前必读）
-
-**本项目仅供技术研究与个人合法使用。下载、使用即代表你已阅读并同意以下全部条款。**
-
-1. **仅限本人数据**：本工具只能用于访问**你本人拥有、且已在本机正常登录**的微信账号的本地数据。**严禁**用于访问、破解、窃取他人的聊天记录或任何非本人授权的数据。
-2. **本地处理、数据不外传**：所有解密与查看均在用户本地设备完成。本项目**不含任何服务器**，不收集、不上传、不分享用户的任何数据、密钥或个人信息。
-3. **合法合规使用**：你必须遵守所在国家/地区的法律法规，包括但不限于《中华人民共和国网络安全法》《个人信息保护法》《数据安全法》及相关隐私保护法律。**严禁**将本工具用于任何非法目的，包括未经授权的数据获取、侵犯他人隐私、商业窃密、伪造证据等。由此产生的一切法律责任由使用者自行承担。
-4. **尊重他人隐私**：聊天记录通常包含双方乃至群成员的个人信息。即便是你本人的记录，导出、传播其中涉及他人的内容前，也应取得相关方同意，避免侵犯第三方隐私。
-5. **不担保、不负责**：本项目按"现状（AS IS）"提供，不对可用性、准确性、数据安全性作任何明示或默示担保。因使用本工具导致的任何数据丢失、损坏、法律纠纷或其他损失，作者概不负责。
-6. **非官方、无隶属关系**：本项目为**独立第三方**开源技术项目，与腾讯公司及"微信/WeChat"**没有任何隶属、授权或合作关系**。"微信""WeChat"等为其各自权利人的商标，仅用于客观描述兼容对象。
-7. **无绕过版权保护之目的**：本项目为帮助用户访问**自身数据**而生，不以规避、破坏任何技术保护措施用于侵权为目的。
-8. **及时清理**：解密产生的明文数据属高度敏感信息，请妥善保管、用后及时删除，切勿分享或上传至公开场合。
-
-**若你不同意上述任何一条，请立即停止使用并删除本项目及其产物。**
+> A local **macOS** tool that helps a user read and view the local chat-history data of **their own WeChat account**, on **their own device**, for personal backup, search and migration. All processing happens locally; no chat data is ever uploaded or transmitted over the network.
 
 ---
 
-## 项目简介
+## ⚠️ Legal Notice & Disclaimer (Read Before Use)
 
-微信 4.x 在 macOS 上将聊天记录存储于 **SQLCipher 加密**的本地数据库中。本项目在获得用户本机授权的前提下，提供一套**本地、只读**的解密与查看方案：
+**This project is provided for technical research and lawful personal use only. By downloading or using it, you acknowledge that you have read and agreed to all of the terms below.**
 
-- **发现**：定位本机微信程序、数据目录与已登录账号；
-- **取密钥**：在用户显式授权、且理解风险的前提下，从本机内存中获取该账号的数据库密钥；
-- **解密**：以标准 SQLCipher 分页算法离线解出明文数据库副本（**原始微信目录只读，绝不写回**）；
-- **查看**：以只读方式浏览会话、消息、联系人，支持文本、图片、语音、视频等媒体的本地还原；
-- **MCP 服务**：可选提供本地 [Model Context Protocol](https://modelcontextprotocol.io/) 服务，仅监听回环地址、带随机鉴权，供本机 AI 客户端在授权下检索本地数据。
+1. **Your own data only.** This tool may only be used to access the local data of a WeChat account that **you own and that is normally logged in on your own machine**. Using it to access, crack, or steal another person's chat history, or any data you are not authorized to access, is **strictly prohibited**.
+2. **Local processing, no data leaves your device.** All decryption and viewing happen on the user's local device. This project **contains no server** and does not collect, upload, or share any of your data, keys, or personal information.
+3. **Lawful and compliant use.** You must comply with the laws and regulations of your jurisdiction, including but not limited to applicable cybersecurity, personal-information-protection, data-security, and privacy laws. Using this tool for **any unlawful purpose** — including unauthorized data access, invasion of privacy, corporate espionage, or evidence forgery — is strictly prohibited. You bear sole legal responsibility for any such use.
+4. **Respect others' privacy.** Chat histories typically contain the personal information of other parties and group members. Even for your own records, obtain the consent of the relevant parties before exporting or sharing content that involves them, to avoid infringing third-party privacy.
+5. **No warranty, no liability.** This project is provided "AS IS", without any express or implied warranty as to availability, accuracy, or data safety. The author is not liable for any data loss, corruption, legal dispute, or other damages arising from use of this tool.
+6. **Unofficial, no affiliation.** This is an **independent, third-party** open-source technical project with **no affiliation, endorsement, or partnership** with Tencent or with "WeChat". "WeChat" and related names are trademarks of their respective owners and are used here only to objectively describe the compatibility target.
+7. **No purpose of circumventing copyright protection.** This project exists to help users access **their own data** and is not intended to circumvent or defeat any technical protection measure for the purpose of infringement.
+8. **Clean up promptly.** Decrypted plaintext data is highly sensitive. Store it securely, delete it promptly after use, and never share or upload it publicly.
 
-> 本项目是 Windows 版工具在 macOS 上的重新实现（原始源码已遗失，基于原设计文档重建）。
+**If you do not agree with any of the above, stop using this project immediately and delete it along with any of its outputs.**
 
-## 项目状态
+---
 
-🚧 **开发规格阶段** —— 目前仓库包含**完整的开发级设计文档**，尚未开始编写业务代码。文档已细化到可直接据此实现的程度。
+## Overview
 
-- 设计与开发文档：见 [`docs/dev/`](docs/dev/)，从 [`docs/dev/README.md`](docs/dev/README.md) 开始阅读。
-- 总纲设计：[`docs/superpowers/specs/2026-08-24-wechat-decryptor-mac-design.md`](docs/superpowers/specs/2026-08-24-wechat-decryptor-mac-design.md)
+On macOS, WeChat 4.x stores chat history in a **SQLCipher-encrypted** local database. With authorization on the user's own machine, this project provides a **local, read-only** decryption and viewing solution:
 
-## 计划特性
+- **Discover** — locate the local WeChat app, its data directory, and logged-in accounts.
+- **Key capture** — with the user's explicit authorization and understanding of the risks, obtain the account's database key from local process memory.
+- **Decrypt** — produce a plaintext copy of the database offline using the standard SQLCipher paged algorithm (**the original WeChat directory is opened read-only and never written back**).
+- **View** — browse conversations, messages, and contacts read-only, with local restoration of media such as text, images, voice, and video.
+- **MCP service** — optionally expose a local [Model Context Protocol](https://modelcontextprotocol.io/) service, bound to the loopback address with random authentication, so a local AI client can search local data under authorization.
 
-| 模块 | 说明 |
+> This is a macOS re-implementation of a former Windows tool (the original source was lost; it is being rebuilt from the original design documents).
+
+## Status
+
+🚧 **Design-specification stage** — the repository currently contains **complete development-level design documents**; business code has not yet been written. The documentation is detailed enough to implement from directly.
+
+- Design & development docs: see [`docs/dev/`](docs/dev/), starting from [`docs/dev/README.md`](docs/dev/README.md).
+- Master design: [`docs/superpowers/specs/2026-08-24-wechat-decryptor-mac-design.md`](docs/superpowers/specs/2026-08-24-wechat-decryptor-mac-design.md)
+
+## Planned Features
+
+| Module | Description |
 |---|---|
-| 路径发现 | 自动定位 `WeChat.app`、数据根目录与账号（`xwechat_files/wxid_*`） |
-| SQLCipher 解密 | 纯 Python 实现分页解密（PBKDF2 + AES + 逐页 HMAC 校验），无原生依赖 |
-| 密钥存储 | 使用 macOS **Keychain** 安全保存密钥（替代 Windows DPAPI） |
-| 查看器 | PySide6 + Qt Quick/QML 界面，会话/消息/联系人只读浏览 |
-| 媒体还原 | `.dat` 图片解码、SILK 语音转 WAV、视频/文件定位 |
-| 本地 MCP | 回环地址 + 随机 Token 的本地 JSON-RPC 服务，供 AI 客户端调用 |
-| CLI | 命令行解密、校验、参数校准入口 |
+| Path discovery | Automatically locate `WeChat.app`, the data root, and accounts (`xwechat_files/wxid_*`) |
+| SQLCipher decryption | Pure-Python paged decryption (PBKDF2 + AES + per-page HMAC verification), no native dependency |
+| Key storage | Securely store keys in the macOS **Keychain** (replacing Windows DPAPI) |
+| Viewer | PySide6 + Qt Quick/QML UI; read-only browsing of conversations/messages/contacts |
+| Media restoration | `.dat` image decoding, SILK voice → WAV, video/file resolution |
+| Local MCP | Loopback-bound JSON-RPC service with a random token, callable by AI clients |
+| CLI | Command-line entry points for decryption, verification, and parameter calibration |
 
-## 技术栈
+## Tech Stack
 
-- **语言**：Python 3.11+
-- **界面**：PySide6（Qt Quick / QML）
-- **加解密**：pycryptodome（SQLCipher 兼容实现）
-- **压缩/媒体**：zstandard、pysilk
-- **打包**：py2app（生成自包含 `.app`）
-- **平台**：macOS 12+（Apple Silicon）
+- **Language:** Python 3.11+
+- **UI:** PySide6 (Qt Quick / QML)
+- **Crypto:** pycryptodome (SQLCipher-compatible implementation)
+- **Compression/media:** zstandard, pysilk
+- **Packaging:** py2app (self-contained `.app`)
+- **Platform:** macOS 12+ (Apple Silicon)
 
-## 环境要求与已知限制
+## Requirements & Known Limitations
 
-- 需在本机**已登录**目标微信账号。
-- 获取数据库密钥可能需要临时调整 macOS 的 **系统完整性保护（SIP）**并使用 `lldb`——这是 macOS 对进程内存的安全限制所致；具体权衡与操作见文档。
-- 访问微信数据目录需授予应用**完全磁盘访问权限（Full Disk Access）**。
-- 仅支持 Apple Silicon（M 系列）。
+- The target WeChat account must be **logged in** on the local machine.
+- Obtaining the database key may require temporarily adjusting macOS **System Integrity Protection (SIP)** and using `lldb` — a consequence of macOS's security restrictions on process memory; see the docs for the trade-offs and procedure.
+- Accessing the WeChat data directory requires granting the app **Full Disk Access**.
+- Apple Silicon (M-series) only.
 
-## 隐私与安全设计
+## Privacy & Security Design
 
-- 原始微信数据**只读**访问，所有写操作仅发生在工具自身数据目录。
-- 密钥仅以 Keychain 保存；日志中只输出密钥指纹（`sha256` 前缀），绝不记录原始密钥或聊天正文。
-- MCP 服务仅绑定 `127.0.0.1`，每次启动随机鉴权 Token。
-- 详见 [`docs/dev/21-security-privacy-threat-model.md`](docs/dev/21-security-privacy-threat-model.md)。
+- The original WeChat data is accessed **read-only**; all writes occur only within the tool's own data directory.
+- Keys are stored only in the Keychain; logs emit only a key fingerprint (`sha256` prefix) and never the raw key or chat content.
+- The MCP service binds only to `127.0.0.1` with a random authentication token generated on each start.
+- See [`docs/dev/21-security-privacy-threat-model.md`](docs/dev/21-security-privacy-threat-model.md).
 
-## 许可证
+## License
 
-本项目采用 **MIT License**，但**使用行为须同时遵守上文"法律声明与免责条款"及当地法律法规**。许可证仅授予代码使用权，不构成对任何违法使用行为的授权或背书。
-
----
-
-_本项目与腾讯公司无关。"微信""WeChat"为其权利人的商标。_
+Released under the **MIT License**, provided that **your use also complies with the "Legal Notice & Disclaimer" above and with applicable local laws**. The license grants rights to use the code only and does not constitute authorization or endorsement of any unlawful use.
