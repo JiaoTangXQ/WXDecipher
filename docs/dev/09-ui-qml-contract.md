@@ -83,16 +83,16 @@ MCP：`startMcp()` `stopMcp()` `copyMcpAddress()` `generateMcpConfig()`
 - `messageLoadFinished()`
 - 每个属性一个 `xxxChanged`（NOTIFY）
 
-## 5. 文案本地化（Windows→Mac）
+## 5. 界面文案（macOS 语境）
 
-复用 QML 时替换字符串（不改结构），集中到 `ui_qt/strings.py`：
+界面字符串集中到 `ui_qt/strings.py`，统一使用 macOS 术语。示例：
 
-| Windows | Mac |
+| 位置 | 文案 |
 |---|---|
-| "Windows x64 · 本地只读 · Qt Quick" | "macOS · 本地只读 · Qt Quick" |
-| "自动寻找当前电脑的 Weixin.exe" | "自动寻找本机 WeChat.app 与账号目录" |
-| "Hook 安装后退出微信，再重新登录…" | "首次按向导取密钥；已保存则直接解密" |
-| "微信程序"（Weixin.exe） | "微信程序"（WeChat.app） |
+| 顶部标识 | "macOS · 本地只读 · Qt Quick" |
+| 自动发现 | "自动寻找本机 WeChat.app 与账号目录" |
+| 取密钥引导 | "首次按向导取密钥；已保存则直接解密" |
+| 程序指代 | "微信程序"（WeChat.app） |
 
 ## 6. App(QObject) 实现骨架（ui_qt/app.py）
 

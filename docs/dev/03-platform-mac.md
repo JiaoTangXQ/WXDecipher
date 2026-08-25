@@ -1,6 +1,6 @@
 # 03 · platform_mac（路径发现与账号枚举）· 精细化实现
 
-替代 Windows 的注册表/App Paths/环境变量发现。**不写死**任何用户名或绝对路径。模块文件：`wechat_decryptor_mac/platform_mac.py`。
+在 macOS 上通过容器固定路径 / Spotlight / 进程探测三路互补发现。**不写死**任何用户名或绝对路径。模块文件：`wechat_decryptor_mac/platform_mac.py`。
 
 ---
 

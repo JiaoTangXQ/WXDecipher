@@ -1,6 +1,6 @@
 # 10 · mcp_server（本地 MCP 服务）· 精细化实现
 
-让支持 MCP 的 AI 客户端读取已解密数据或显式触发解密。纯本机、只读优先。移植自 Windows 版，语义等价替换（Hook→取密钥）。模块目录：`wechat_decryptor_mac/mcp/`。
+让支持 MCP 的 AI 客户端读取已解密数据或显式触发解密。纯本机、只读优先。模块目录：`wechat_decryptor_mac/mcp/`。
 
 ---
 
@@ -150,7 +150,7 @@ def serve_stdio(server: McpServer):
   "dry_run":{"type":"boolean","default":false},
   "confirm_capture":{"type":"boolean","default":false}}}
 ```
-其余工具 schema 同 `docs/dev/10` 原表（本册保留 Windows 版全集，仅 `wechat_decrypt` 改 Mac 语义）。
+其余工具 schema 见本册工具表；`wechat_decrypt` 采用 Mac 取密钥+解密语义（下节说明）。
 
 ### 6.1 wechat_decrypt Mac 语义
 ```text

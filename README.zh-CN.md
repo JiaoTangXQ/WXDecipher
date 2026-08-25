@@ -52,7 +52,7 @@
 |---|---|
 | 路径发现 | 自动定位 `WeChat.app`、数据根目录与账号（`xwechat_files/wxid_*`） |
 | SQLCipher 解密 | 纯 Python 实现分页解密（PBKDF2 + AES + 逐页 HMAC 校验），无原生依赖 |
-| 密钥存储 | 使用 macOS **Keychain** 安全保存密钥（替代 Windows DPAPI） |
+| 密钥存储 | 使用 macOS **Keychain** 安全保存密钥 |
 | 查看器 | PySide6 + Qt Quick/QML 界面，会话/消息/联系人只读浏览 |
 | 媒体还原 | `.dat` 图片解码、SILK 语音转 WAV、视频/文件定位 |
 | 本地 MCP | 回环地址 + 随机 Token 的本地 JSON-RPC 服务，供 AI 客户端调用 |

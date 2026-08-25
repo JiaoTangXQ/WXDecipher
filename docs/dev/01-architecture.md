@@ -72,18 +72,18 @@
 ## 5. 错误处理策略
 
 - 业务层抛领域异常（`DecryptError`, `KeyMismatchError`, `AccountNotFoundError`, `SipEnabledError` 等），不吞异常。
-- 界面层捕获领域异常 → 转为 `errorText` + 运行日志人话提示（对齐 Windows 文案风格），不弹裸栈。
+- 界面层捕获领域异常 → 转为 `errorText` + 运行日志人话提示，不弹裸栈。
 - 只读/只写边界违例（试图写原始目录）视为编程错误，直接 assert 失败于开发期。
 - 关键动作（解密、取密钥、MCP 启停）全程写 `logs/`，密钥脱敏。
 
-## 6. 与 Windows 版的架构对应
+## 6. 关键机制与实现模块对应
 
-| Windows | Mac | 说明 |
+| 能力 | 实现模块 | 说明 |
 |---|---|---|
-| `wx_key.dll` 注入 Weixin.exe | `keycapture` lldb 读内存 | 取密钥机制替换 |
-| DPAPI `*.dpapi` | Keychain | 密钥存储替换 |
-| 注册表/App Paths/%LOCALAPPDATA% | `platform_mac` + `app_paths` | 路径发现替换 |
-| `微信解密核心.exe`（worker） | 同进程后台线程 + `mcp` 子进程模式 | Mac 不强制拆双 exe |
-| PyInstaller onedir | py2app `.app` | 打包替换 |
-| QML 界面 | **原样复用** | 无需改 |
-| 解密/适配/MCP 业务 | **移植** | 逻辑一致 |
+| 取密钥 | `keycapture`（lldb 读内存） | 首次需临时 SIP，取后存 Keychain 复用 |
+| 密钥存储 | `keyring_store`（Keychain） | 按账号分别保存 |
+| 路径发现 | `platform_mac` + `app_paths` | 容器路径 / Spotlight / `pgrep` |
+| 解密与后台任务 | `decryptor` + UI 后台线程 | 解密在工作线程，不阻塞界面 |
+| MCP 服务 | `mcp`（同进程线程或子进程） | HTTP + stdio 双传输 |
+| 打包 | py2app `.app` | 自包含分发 |
+| 界面 | Qt Quick / QML | 只读浏览会话/消息/媒体 |

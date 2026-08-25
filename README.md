@@ -52,7 +52,7 @@ This causes real problems: switching or resetting your Mac can wipe out years of
 |---|---|
 | Path discovery | Automatically locate `WeChat.app`, the data root, and accounts (`xwechat_files/wxid_*`) |
 | SQLCipher decryption | Pure-Python paged decryption (PBKDF2 + AES + per-page HMAC verification), no native dependency |
-| Key storage | Securely store keys in the macOS **Keychain** (replacing Windows DPAPI) |
+| Key storage | Securely store keys in the macOS **Keychain** |
 | Viewer | PySide6 + Qt Quick/QML UI; read-only browsing of conversations/messages/contacts |
 | Media restoration | `.dat` image decoding, SILK voice → WAV, video/file resolution |
 | Local MCP | Loopback-bound JSON-RPC service with a random token, callable by AI clients |

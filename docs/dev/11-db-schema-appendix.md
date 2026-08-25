@@ -63,8 +63,8 @@ SELECT count(*) FROM '<table>';
 - kdf_algo / kdf_iter：
 - hmac_algo / reserve：
 
-## 4. 已知与 Windows 版差异
+## 4. 已知要点
 
-- 库数量更多（Windows 文档仅提 3 个核心库，Mac 4.1 实测 16 个）。
+- 库数量较多（除 3 个核心库外，Mac 4.1 实测约 16 个数据库）。
 - 媒体走 `hardlink.db` 映射（需专门解析）。
-- 表结构预计与 Windows 4.0 高度一致（同一跨平台架构），但需实测确认字段名/类型细节。
+- 表结构需实测确认字段名/类型细节（P1 回填本附录）。

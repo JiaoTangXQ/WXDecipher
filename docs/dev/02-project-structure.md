@@ -2,7 +2,7 @@
 
 ## 1. 目录结构
 
-项目根目录：`wechat_decryptor_mac/`（与现有 Windows 发行版目录并列于仓库根）。
+项目根目录：`wechat_decryptor_mac/`（位于仓库根）。
 
 ```text
 wechat_decryptor_mac/
@@ -51,7 +51,7 @@ wechat_decryptor_mac/
 │   ├── app.py                    # App(QObject) 桥接（见 09）
 │   ├── models.py                 # ConversationModel / MessageModel
 │   ├── full_smoke_test.py        # 无窗口冒烟
-│   └── qml/                      # 直接复用现有 QML
+│   └── qml/                      # Qt Quick 界面
 │       ├── FullMain.qml
 │       ├── Main.qml
 │       └── components/MessageBubble.qml
@@ -86,10 +86,10 @@ QML 文案统一使用 macOS 语境（见 09 §5），结构/布局/主题保持
 
 ## 3. 依赖与版本（`requirements-app.txt`）
 
-> 版本以安装时最新稳定版为准，下列为对照 `_internal` 中 Windows 版实测版本，作为下限参考。
+> 版本以安装时最新稳定版为准，下列为建议下限参考。
 
 ```text
-PySide6>=6.7            # Qt Quick/QML；Windows 版基于 Qt6
+PySide6>=6.7            # Qt Quick/QML（Qt6）
 pycryptodome>=3.23.0    # AES/HMAC/PBKDF2，SQLCipher 手工解密
 pillow>=12.0.0          # 图片解码
 silk-python>=0.2.8      # SILK 语音解码（pysilk）
@@ -110,7 +110,7 @@ py2app>=0.28            # 打包
 - `lldb`（随 Xcode Command Line Tools，`xcode-select --install`）——仅取密钥用。
 - `security` 命令（系统自带）——Keychain 读写。
 
-> 不使用 `pysqlcipher3`/系统 `sqlcipher` 二进制：解密全部用 pycryptodome 手工实现，避免额外原生依赖，保证 `.app` 自包含（与 Windows 版策略一致）。
+> 不使用 `pysqlcipher3`/系统 `sqlcipher` 二进制：解密全部用 pycryptodome 手工实现，避免额外原生依赖，保证 `.app` 自包含。
 
 ## 4. 运行方式
 
@@ -137,7 +137,7 @@ QT_QPA_PLATFORM=offscreen python ui_qt/full_smoke_test.py --demo
 
 ## 6. app_paths（工具数据目录解析）· 精细化实现
 
-模块文件：`wechat_decryptor_mac/app_paths.py`。集中管理工具**可写数据目录**，替代 Windows 的 `%LOCALAPPDATA%\WeChatDecryptor`。业务层任何写操作只允许落在这些路径内。
+模块文件：`wechat_decryptor_mac/app_paths.py`。集中管理工具**可写数据目录**（`~/Library/Application Support/WeChatDecryptor`）。业务层任何写操作只允许落在这些路径内。
 
 ```python
 from dataclasses import dataclass
@@ -169,7 +169,7 @@ class AppPaths:
 
     @staticmethod
     def _writable_root() -> Path:
-        # 首选 Application Support；不可写时回退（对应 Windows 的多级回退策略）
+        # 首选 Application Support；不可写时多级回退
         candidates = [
             Path.home()/"Library/Application Support"/APP_DIR_NAME,
             Path.home()/f".{APP_DIR_NAME.lower()}",
@@ -195,7 +195,7 @@ def assert_within_workspace(path: Path, paths: AppPaths) -> None:
 要点：
 - `decrypted/`、`.media_cache/`、`.index/`、`logs/`、`exports/`、`mcp_servers.generated.json` 全在 `root` 下，删 `root` 即彻底清理（隐私，见 21）。
 - `assert_within_workspace` 是只读/只写边界的强制守卫（见 20 §5），媒体解码、导出、索引写盘前都要过。
-- 回退顺序：`Application Support` → 家目录隐藏目录 → 临时目录（对齐 Windows 的 `APPDATA`→用户目录→temp 回退）。
+- 回退顺序：`Application Support` → 家目录隐藏目录 → 临时目录。
 
 ## 7. verify（明文库校验）· 精细化实现
 

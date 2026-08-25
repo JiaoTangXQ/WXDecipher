@@ -19,7 +19,7 @@
 11. [`11-db-schema-appendix.md`](11-db-schema-appendix.md) — 数据库结构附录。
 12. [`12-build-packaging.md`](12-build-packaging.md) — 构建打包。
 13. [`13-testing.md`](13-testing.md) — 测试与验收。
-14. [`14-glossary-faq.md`](14-glossary-faq.md) — 术语、Windows→Mac 对照、FAQ。
+14. [`14-glossary-faq.md`](14-glossary-faq.md) — 术语表与 FAQ。
 15. [`15-implementation-plan.md`](15-implementation-plan.md) — 分期任务分解与依赖关系。
 16. [`16-error-catalog.md`](16-error-catalog.md) — 领域异常与用户文案目录。
 17. [`17-logging-and-i18n.md`](17-logging-and-i18n.md) — 日志、脱敏、文案本地化。

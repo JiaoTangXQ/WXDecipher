@@ -24,7 +24,7 @@
 | [`docs/dev/11-db-schema-appendix.md`](../../dev/11-db-schema-appendix.md) | 数据库结构附录 |
 | [`docs/dev/12-build-packaging.md`](../../dev/12-build-packaging.md) | 构建、打包、分发 |
 | [`docs/dev/13-testing.md`](../../dev/13-testing.md) | 测试计划与验收标准 |
-| [`docs/dev/14-glossary-faq.md`](../../dev/14-glossary-faq.md) | 术语表、Windows→Mac 对照、FAQ |
+| [`docs/dev/14-glossary-faq.md`](../../dev/14-glossary-faq.md) | 术语表与 FAQ |
 | [`docs/dev/15-implementation-plan.md`](../../dev/15-implementation-plan.md) | 分期任务分解与依赖关系 |
 | [`docs/dev/16-error-catalog.md`](../../dev/16-error-catalog.md) | 领域异常与用户文案目录 |
 | [`docs/dev/17-logging-and-i18n.md`](../../dev/17-logging-and-i18n.md) | 日志、脱敏、文案本地化 |
@@ -91,14 +91,14 @@
 |---|---|---|---|
 | D1 | 目标微信版本 | 仅微信 4.0/4.1（xwechat 架构） | 用户确认；本机为 4.1.12 |
 | D2 | 首次取密钥方式 | 引导式一次性关 SIP + lldb 一键抓取；保留手动导入 | 用户要求"便于其他用户使用"；Mac 无零特权方案 |
-| D3 | 密钥存储 | macOS Keychain（替代 Windows DPAPI） | 平台等价物 |
-| D4 | 解密实现 | pycryptodome 手工 SQLCipher 分页解密（不依赖系统 sqlcipher 二进制） | 与原 Windows 实现一致，`_internal` 内含 pycryptodome |
-| D5 | 界面 | 复用现有 QML，仅重写 Python 后端 `app` 桥接 | Qt Quick 跨平台 |
+| D3 | 密钥存储 | macOS Keychain | 系统级安全存储 |
+| D4 | 解密实现 | pycryptodome 手工 SQLCipher 分页解密（不依赖系统 sqlcipher 二进制） | 避免原生依赖，`.app` 自包含 |
+| D5 | 界面 | Qt Quick / QML + Python 后端 `app` 桥接 | Qt Quick 跨平台 |
 | D6 | MCP | **保留**全套本地 MCP（HTTP+stdio） | 用户确认保留（2026-08-24） |
 | D7 | 打包 | py2app 出 `.app`；v0.1 先走档 0（不公证 + 右键打开说明），后续可升级公证 | Mac 分发标准做法；用户暂未要求投入公证 |
 | D8 | 重签名微信取密钥 | 仅文档说明，不做默认 UI | 对小白不友好、随更新失效 |
 | D9 | 文档位置与语言 | 全部文档放当前仓库 `docs/` 下，**全中文** | 用户确认（2026-08-24） |
-| D10 | 代码项目目录名 | `wechat_decryptor_mac/`（与现有 Windows 发行版目录并列） | 默认采用，未见异议 |
+| D10 | 代码项目目录名 | `wechat_decryptor_mac/` | 默认采用，未见异议 |
 
 ### 4.1 密钥获取的硬约束（务必理解）
 

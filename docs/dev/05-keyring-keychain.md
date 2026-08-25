@@ -1,6 +1,6 @@
 # 05 · keyring_store（macOS Keychain 密钥存储）· 精细化实现
 
-替代 Windows DPAPI。密钥存 macOS 登录钥匙串，绑定当前用户，不落盘明文。模块文件：`wechat_decryptor_mac/keyring_store.py`。
+密钥存 macOS 登录钥匙串（Keychain），绑定当前用户，不落盘明文。模块文件：`wechat_decryptor_mac/keyring_store.py`。
 
 ---
 

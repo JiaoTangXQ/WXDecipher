@@ -38,17 +38,16 @@
 - 所有面向用户字符串集中到 `ui_qt/strings.py`（Python 侧）与 QML 顶部常量/`strings.js`（QML 侧），避免散落，便于统一维护与将来可能的多语言。
 - 当前仅中文；不做 i18n 框架，但集中管理为将来留口。
 
-### 3.2 必须替换的 Windows 文案（复用 QML 时）
-见 `docs/dev/09` §5，核心：
-- `Weixin.exe` → `WeChat.app`
-- `Hook` / `安装 Hook` → `取密钥` / `读取内存密钥`
-- `DPAPI` / `.dpapi 密钥库` → `钥匙串（Keychain）`
-- `%LOCALAPPDATA%\WeChatDecryptor` → `~/Library/Application Support/WeChatDecryptor`
-- `Windows 10/11 x64` → `macOS 12+`
-- `退出微信重新登录（等待登录秒数）` → `按向导取密钥（首次）/ 已保存则直接解密`
+### 3.2 统一的 macOS 术语（见 `docs/dev/09` §5）
+- 微信程序 → `WeChat.app`
+- 取密钥 / 读取内存密钥
+- 钥匙串（Keychain）
+- 工具数据目录 → `~/Library/Application Support/WeChatDecryptor`
+- 系统要求 → `macOS 12+`
+- 首次取密钥引导 → `按向导取密钥（首次）/ 已保存则直接解密`
 
 ### 3.3 文案风格
-- 沿用 Windows 版"给小白"的直白风格与故障定位话术。
+- 面向非技术用户，采用直白、可操作的提示与故障定位话术。
 - 错误提示用 `docs/dev/16` 的 `user_message`，保持一致。
 
 ## 4. 关键动作的日志检查点

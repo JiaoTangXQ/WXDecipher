@@ -45,7 +45,7 @@ python setup.py py2app -A       # alias 模式（开发快速联调，不自包�
 打包注意：
 - **PySide6 + QML 资源**：确保 `ui_qt/qml/` 打进包，QML 引擎按包内相对路径加载（用 `Path(__file__).parent/"qml"`）。
 - **pycryptodome**（包名 `Crypto`）、**pysilk**、**zstandard** 显式列入 `packages`，避免 py2app 漏收。
-- **只打包程序与资源**，绝不打包任何聊天数据/密钥/账号路径（与 Windows 版发布纪律一致）。
+- **只打包程序与资源**，绝不打包任何聊天数据/密钥/账号路径。
 
 ## 3. 权限与 entitlements
 
@@ -80,7 +80,7 @@ xattr -dr com.apple.quarantine "/Applications/微信记录工作台.app"
 
 ## 6. 版本与构建信息
 
-沿用 Windows 版 `build_manifest.json` 思路，生成 Mac 版清单：
+生成构建清单 `build_manifest.json`：
 
 ```json
 {
