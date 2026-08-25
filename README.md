@@ -33,7 +33,11 @@ On macOS, WeChat 4.x stores chat history in a **SQLCipher-encrypted** local data
 - **View** — browse conversations, messages, and contacts read-only, with local restoration of media such as text, images, voice, and video.
 - **MCP service** — optionally expose a local [Model Context Protocol](https://modelcontextprotocol.io/) service, bound to the loopback address with random authentication, so a local AI client can search local data under authorization.
 
-> This is a macOS re-implementation of a former Windows tool (the original source was lost; it is being rebuilt from the original design documents).
+## Background
+
+WeChat on macOS provides no official way to export or back up your chat history. Your messages, images, voice notes, and files live only inside an encrypted local database — you cannot export them as a whole, cannot search across your full history, and have no programmatic access to your own data.
+
+This causes real problems: switching or resetting your Mac can wipe out years of conversations with no official way to recover them; you cannot archive or full-text search your own records; and your data is effectively out of your own hands. WXDecipher exists to solve exactly that — letting you unlock and read **your own** local WeChat data on **your own** Mac, so you can back it up, search it, and keep it under your control, entirely offline.
 
 ## Status
 

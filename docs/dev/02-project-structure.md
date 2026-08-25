@@ -74,15 +74,15 @@ wechat_decryptor_mac/
 └── docs/ -> (仓库根 docs/)        # 本设计文档
 ```
 
-## 2. QML 复用说明
+## 2. QML 界面说明
 
-`ui_qt/qml/` 三个文件从现有发行版 `微信解密-8月18日23点57/_internal/ui_qt/qml/` 拷贝：
+`ui_qt/qml/` 下的界面文件：
 
 - `FullMain.qml`（主界面：解密控制台 + 查看器双页）
 - `Main.qml`（精简查看器，可选保留）
 - `components/MessageBubble.qml`（消息气泡）
 
-QML 中 Windows 术语文案需替换（见 09 §5），但结构/布局/主题不改。新增取密钥向导 QML：`components/KeyCaptureWizard.qml`（P4）。
+QML 文案统一使用 macOS 语境（见 09 §5），结构/布局/主题保持一致。新增取密钥向导 QML：`components/KeyCaptureWizard.qml`（P4）。
 
 ## 3. 依赖与版本（`requirements-app.txt`）
 
